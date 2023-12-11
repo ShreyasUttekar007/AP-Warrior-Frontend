@@ -33,8 +33,14 @@ h2, h3{
     background-color: #ff0404;
     padding: 16px 20px;
     border-radius:15px;
+    margin: 10px 20px;
 
 }
 .btn:hover {
     background-color: #de8900;
   }
+
+.buttons{
+    display: flex;
+    justify-content: center;
+}

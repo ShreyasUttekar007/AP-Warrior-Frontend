@@ -8,7 +8,6 @@ import AWS from "aws-sdk";
 const API_URL = "http://localhost:2000/api/submit";
 const genders = ["Male", "Female", "Other"];
 
-// Initialize AWS SDK with your credentials
 AWS.config.update({
   accessKeyId: "AKIAT74AEHFEQGSGLYO6",
   secretAccessKey: "Vac5n9FX4D3+tR0Y0+ZfJVAgo+hlKWOQOp+1g3x7",
