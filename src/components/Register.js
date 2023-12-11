@@ -5,7 +5,7 @@ import data from "../PC-College - Sheet1.json";
 import { useNavigate } from "react-router-dom";
 import AWS from "aws-sdk";
 
-const API_URL = "http://localhost:2000/api/submit";
+const API_URL = "https://ap-warrior.onrender.com/api/submit";
 const genders = ["Male", "Female", "Other"];
 
 AWS.config.update({
