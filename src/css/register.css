@@ -1,0 +1,122 @@
+.Register {
+    max-width: 1400px;
+    /* width: 70%; */
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #131313;
+    border-radius: 2%;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #ffffff;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    
+  }
+  
+  form  {
+    width: 80%;
+    margin-left: 10%;
+  }
+/* .form-size{
+  width: 60%;
+} */
+/* .gender{
+  width: 101.1%;
+}
+.pc{
+  width: 101.1%;
+}
+.inst{
+  width: 101.1%;
+}
+.pin{
+  width: 97.5%;
+}
+input{
+  width: 30%;
+} */
+
+  label {
+    /* width: 40%; */
+    margin-bottom: 10px;
+    font-size: 16px;
+    align-items: start;
+    color: #ffffff;
+  }
+  
+  input,
+  button{
+    width: 98%;
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 14px;
+    align-items: center;
+  }
+  select {
+    width: 99.5%;
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 14px;
+    align-items: center;
+  }
+  button {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 14px;
+  }
+  button {
+    background-color: #4c74af;
+    color: white;
+    cursor: pointer;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  .Main-text{
+    background-color: #12305a;
+    color: white;
+    height: auto;
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.container{
+    border-bottom: 10px;
+    border-color: yellow;
+}
+  .text1{
+    align-items: center;
+    display: flex;
+    font-size: 15px;;
+    justify-content: center;
+    margin-bottom: 1.5%;
+}
+  /* Responsive Styles */
+  @media screen and (max-width: 600px) {
+    .container {
+      padding: 10px;
+    }
+    
+  
+    input,
+    button,
+    select {
+      padding: 8px;
+    }
+  
+    button {
+      padding: 8px 15px;
+    }
+  }
+ 
