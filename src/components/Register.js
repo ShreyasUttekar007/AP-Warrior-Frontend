@@ -50,7 +50,7 @@ function Register() {
 
   const navigate = useNavigate()
 
-  const [selectedDistrict, setSelectedDistrict] = useState("");
+  // const [selectedDistrict, setSelectedDistrict] = useState("");
 
   useEffect(() => {
     const uniqueDistricts = [...new Set(data.map((item) => item["PC Name"]))];
@@ -85,7 +85,7 @@ function Register() {
 
   const handleDistrictChange = (e) => {
     const selectedDistrict = e.target.value;
-    setSelectedDistrict(selectedDistrict);
+    // setSelectedDistrict(selectedDistrict);
 
     const filteredUniversities = data
       .filter((item) => item["PC Name"] === selectedDistrict)
