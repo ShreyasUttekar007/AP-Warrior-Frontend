@@ -5,7 +5,7 @@ import data from "../PC-College - Sheet1.json";
 import { useNavigate } from "react-router-dom";
 import AWS from "aws-sdk";
 
-const API_URL = "http://localhost:2000/api/submit";
+const API_URL = "https://ap-warrior.onrender.com/api/submit";
 const genders = ["Male", "Female", "Other"];
 
 AWS.config.update({
@@ -28,7 +28,7 @@ function Register() {
     gender: "",
     district: "",
     university: "",
-    college: "",
+    // college: "",
     pincode: "",
     image: null,
     documentType: "",
@@ -48,7 +48,7 @@ function Register() {
     }));
   };
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [selectedDistrict, setSelectedDistrict] = useState("");
 
@@ -120,18 +120,18 @@ function Register() {
 
   const handleKeyDown = (e) => {
     const allowedCharacters = /^[0-9\b]+$/;
-  
+
     if (e.key === "Backspace") {
       const currentValue = e.target.value;
-  
+
       if (currentValue.endsWith("+91")) {
         e.preventDefault();
         return;
       }
-  
+
       return;
     }
-  
+
     if (!allowedCharacters.test(e.key)) {
       e.preventDefault();
     }
@@ -157,14 +157,21 @@ function Register() {
     e.preventDefault();
 
     try {
-      const imageUrl = await uploadImageToS3(form.image);
+      let imageUrl = null;
+
+      if (form.documentType) {
+        // Only upload image to S3 if a document type is selected
+        imageUrl = await uploadImageToS3(form.image);
+      }
 
       const formData = new FormData();
       for (const key in form) {
         formData.append(key, form[key]);
       }
 
-      formData.append("imageUrl", imageUrl);
+      if (imageUrl) {
+        formData.append("imageUrl", imageUrl);
+      }
 
       await axios.post(API_URL, formData, {
         headers: {
@@ -183,6 +190,7 @@ function Register() {
         university: "",
         pincode: "",
         image: null,
+        documentType: "",
       });
       navigate("/thank-you");
     } catch (error) {
@@ -193,209 +201,203 @@ function Register() {
 
   return (
     <>
-    <div className="Register" id="register">
-      <form  className="form-size"onSubmit={handleSubmit}>
-        <label>
-        AP Warrior code / ఏపీ వారియర్ కోడ్ *
-          <input
-            type="text"
-            name="code"
-            value={form.code}
-            onChange={handleInputChange}
-            required
-          />
-        </label>
-        <br />
+      <div className="Register" id="register">
+        <form className="form-size" onSubmit={handleSubmit}>
+          <label>
+            AP Warrior code / ఏపీ వారియర్ కోడ్ *
+            <input
+              type="text"
+              name="code"
+              value={form.code}
+              onChange={handleInputChange}
+              required
+            />
+          </label>
+          <br />
 
-        <label>
-        Name / పేరు *
-          <input
-            type="text"
-            name="name"
-            value={form.name}
-            onChange={handleInputChange}
-            required
-          />
-        </label>
-        <br />
+          <label>
+            Name / పేరు *
+            <input
+              type="text"
+              name="name"
+              value={form.name}
+              onChange={handleInputChange}
+              required
+            />
+          </label>
+          <br />
 
-        <label>
-        Mobile number / మొబైల్ నెంబర్ *
-          <input
-            type="text"
-            name="phoneNumber"
-            value={form.phoneNumber}
-            onInput={(e) => {
-              e.target.value = e.target.value
-                .replace(/[^\d+]/g, "")
-                .slice(0, 13);
-              handleInputChange(e);
-            }}
-            onKeyDown={handleKeyDown}
-            required
-          />
-        </label>
+          <label>
+            Mobile number / మొబైల్ నెంబర్ *
+            <input
+              type="text"
+              name="phoneNumber"
+              value={form.phoneNumber}
+              onInput={(e) => {
+                e.target.value = e.target.value
+                  .replace(/[^\d+]/g, "")
+                  .slice(0, 13);
+                handleInputChange(e);
+              }}
+              onKeyDown={handleKeyDown}
+              required
+            />
+          </label>
 
-        <label>
-        Date of Birth / పుట్టిన తేది*
-          <input
-            type="date"
-            name="dob"
-            value={form.dob}
-            max="2010-12-31"
-            onChange={handleInputChange}
-            required
-          />
-        </label>
-        <br />
+          <label>
+            Date of Birth / పుట్టిన తేది*
+            <input
+              type="date"
+              name="dob"
+              value={form.dob}
+              max="2010-12-31"
+              onChange={handleInputChange}
+              required
+            />
+          </label>
+          <br />
 
-        <label>
-        Gender / లింగం *
-          <select
-          className="gender"
-            name="gender"
-            value={form.gender}
-            onChange={handleInputChange}
-            required
-          >
-            <option value="" disabled>
-              Select Gender
-            </option>
-            {genders.map((gender) => (
-              <option key={gender} value={gender}>
-                {gender}
+          <label>
+            Gender / లింగం *
+            <select
+              className="gender"
+              name="gender"
+              value={form.gender}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="" disabled>
+                Select Gender
               </option>
-            ))}
-          </select>
-        </label>
-        <br />
+              {genders.map((gender) => (
+                <option key={gender} value={gender}>
+                  {gender}
+                </option>
+              ))}
+            </select>
+          </label>
+          <br />
 
-        <label>
-          PC Name / PC పేరు*
-          <select
-            className="pc"
-            name="district"
-            value={form.district}
-            onChange={(e) => {
-              handleDistrictChange(e);
-              handleInputChange(e);
-            }}
-            required
-          >
-            <option value="" disabled >
-              Select PC Name
-
-            </option>
-            {dropdownData.districts.map((district) => (
-              <option key={district} value={district}>
-                {district}
-                {/* others */}
+          <label>
+            PC Name / PC పేరు*
+            <select
+              className="pc"
+              name="district"
+              value={form.district}
+              onChange={(e) => {
+                handleDistrictChange(e);
+                handleInputChange(e);
+              }}
+              required
+            >
+              <option value="" disabled>
+                Select PC Name
               </option>
-               
-            ))}
-          </select>
-        </label>
-        <br />
-        <label>
-          Institution Name సంస్థ పేరును ఎంచుకోండి*
-          <select
-            name="university"
-            value={form.university}
-            onChange={handleSelectChange}
-            required
-          >
-            <option value="" disabled>
-              Select Institution Name
-            </option>
-            {dropdownData.universities.map((university) => (
-              <option key={university} value={university}>
-                {university}
+              {dropdownData.districts.map((district) => (
+                <option key={district} value={district}>
+                  {district}
+                  {/* others */}
+                </option>
+              ))}
+            </select>
+          </label>
+          <br />
+          <label>
+            Institution Name సంస్థ పేరును ఎంచుకోండి*
+            <select
+              name="university"
+              value={form.university}
+              onChange={handleSelectChange}
+              required
+            >
+              <option value="" disabled>
+                Select Institution Name
               </option>
-            ))}
-            <option value="new">Enter New Institution Name</option>
-          </select>
-        </label>
-        {form.university === "new" && (
-          <div>
-            <label>
-              New Institution Name
-              <input
-                type="text"
-                name="newUniversity"
-                value={form.newUniversity}
-                onChange={handleInputChange}
-                placeholder="Enter new institution name"
-                required
-              />
-            </label>
-          </div>
-        )}
-        <br />
+              {dropdownData.universities.map((university) => (
+                <option key={university} value={university}>
+                  {university}
+                </option>
+              ))}
+              <option value="new">Enter New Institution Name</option>
+            </select>
+          </label>
+          {form.university === "new" && (
+            <div>
+              <label>
+                New Institution Name
+                <input
+                  type="text"
+                  name="newUniversity"
+                  value={form.newUniversity}
+                  onChange={handleInputChange}
+                  placeholder="Enter new institution name"
+                  required
+                />
+              </label>
+            </div>
+          )}
+          <br />
 
-        <label>
-        Pincode / పిన్ కోడ్ *
-          <input
-          className="pin"
-            type="text"
-            name="pincode"
-            value={form.pincode}
-            onInput={(e) => {
-              e.target.value = e.target.value
-                .replace(/[^\d+]/g, "")
-                .slice(0, 6);
-              handleInputChange(e);
-            }}
-            required
-          />
-        </label>
-        <br />
+          <label>
+            Pincode / పిన్ కోడ్ *
+            <input
+              className="pin"
+              type="text"
+              name="pincode"
+              value={form.pincode}
+              onInput={(e) => {
+                e.target.value = e.target.value
+                  .replace(/[^\d+]/g, "")
+                  .slice(0, 6);
+                handleInputChange(e);
+              }}
+              required
+            />
+          </label>
+          <br />
 
-        <label>
-          Document Type / పత్ర ప्रకారం *
-          <select
-            name="documentType"
-            value={form.documentType}
-            onChange={handleDocumentTypeChange}
-            required
-          >
-            <option value="" disabled>
-              Select Document Type
-            </option>
-            <option value="aadhar">Aadhar Card</option>
-            <option value="pan">PAN Card</option>
-            <option value="schoolCertificate">School Certificate</option>
-          </select>
-        </label>
-        <br />
+          <label>
+            Document Type / పత్ర ప्रకారం *
+            <select
+              name="documentType"
+              value={form.documentType}
+              onChange={handleDocumentTypeChange}
+            >
+              <option value="" disabled>
+                Select Document Type
+              </option>
+              <option value="aadhar">Aadhar Card</option>
+              <option value="pan">PAN Card</option>
+              <option value="schoolCertificate">School Certificate</option>
+            </select>
+          </label>
+          <br />
 
-        {form.documentType && (
-          <div>
-            <label>
-              Upload Document Proof
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                required
-              />
-            </label>
-          </div>
-        )}
-        <br />
-        <button type="submit">Submit / సమర్పించండి</button>
-      </form>
-    </div>
-    <div className="Main-text">
-    <div className="container"> 
-    <h3 className="text1">
-    Your vote is more than a choice; it's a voice, a power and a pledge
-    for a brighter future of Andhra Pradesh.
-  </h3>
-  </div>
-
-    </div>
-    
-  </>
+          {form.documentType && (
+            <div>
+              <label>
+                Upload Document Proof
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+              </label>
+            </div>
+          )}
+          <br />
+          <button type="submit">Submit / సమర్పించండి</button>
+        </form>
+      </div>
+      <div className="Main-text">
+        <div className="container">
+          <h3 className="text1">
+            Your vote is more than a choice; it's a voice, a power and a pledge
+            for a brighter future of Andhra Pradesh.
+          </h3>
+        </div>
+      </div>
+    </>
   );
 }
 
