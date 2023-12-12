@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "../css/slider.css";
 
 const imageContext = require.context("../sliderimages", false, /\.(jpg)$/);
+const imageContext2 = require.context("../sliderimages2", false, /\.(jpg)$/);
 
 const ImageSlider = () => {
   const sliderSettings = {
@@ -20,6 +21,7 @@ const ImageSlider = () => {
   };
 
   const images = imageContext.keys().map(imageContext);
+  const images2 = imageContext2.keys().map(imageContext2);
 
   const [language, setLanguage] = useState("english");
   const registerRef = useRef(null);
@@ -40,7 +42,7 @@ const ImageSlider = () => {
         <div className="container">
           <div className="buttons">
             <button className="btn" onClick={scrollToRegister}>
-            {language === "english" ? "Register" : "నమోదు చేయండి"}
+              {language === "english" ? "Register" : "నమోదు చేయండి"}
             </button>
             <button className="btn" onClick={toggleLanguage}>
               {language === "english" ? "Telugu" : "English"}
@@ -53,17 +55,31 @@ const ImageSlider = () => {
           </h2>
         </div>
       </div>
-      <Slider {...sliderSettings}>
-        {images.map((image, index) => (
-          <div key={index} className="zoom-slide">
-            <img
-              src={image}
-              alt={`Slide ${index + 1}`}
-              style={{ width: "100%" }}
-            />
-          </div>
-        ))}
-      </Slider>
+      {language === "english" ? (
+        <Slider {...sliderSettings}>
+          {images.map((image, index) => (
+            <div key={index} className="zoom-slide">
+              <img
+                src={image}
+                alt={`Slide ${index + 1}`}
+                style={{ width: "100%" }}
+              />
+            </div>
+          ))}
+        </Slider>
+      ) : (
+        <Slider {...sliderSettings}>
+          {images2.map((image, index) => (
+            <div key={index} className="zoom-slide">
+              <img
+                src={image}
+                alt={`Slide ${index + 1}`}
+                style={{ width: "100%" }}
+              />
+            </div>
+          ))}
+        </Slider>
+      )}
       <div ref={registerRef}></div>
     </div>
   );
