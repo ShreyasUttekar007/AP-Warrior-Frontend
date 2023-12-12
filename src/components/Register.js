@@ -50,7 +50,7 @@ function Register() {
 
   const navigate = useNavigate();
 
-  const [selectedDistrict, setSelectedDistrict] = useState("");
+  // const [selectedDistrict, setSelectedDistrict] = useState("");
 
   useEffect(() => {
     const uniqueDistricts = [...new Set(data.map((item) => item["PC Name"]))];
@@ -85,7 +85,7 @@ function Register() {
 
   const handleDistrictChange = (e) => {
     const selectedDistrict = e.target.value;
-    setSelectedDistrict(selectedDistrict);
+    // setSelectedDistrict(selectedDistrict);
 
     const filteredUniversities = data
       .filter((item) => item["PC Name"] === selectedDistrict)
@@ -356,48 +356,52 @@ function Register() {
           </label>
           <br />
 
-          <label>
-            Document Type / పత్ర ప्रకారం *
-            <select
-              name="documentType"
-              value={form.documentType}
-              onChange={handleDocumentTypeChange}
-            >
-              <option value="" disabled>
-                Select Document Type
-              </option>
-              <option value="aadhar">Aadhar Card</option>
-              <option value="pan">PAN Card</option>
-              <option value="schoolCertificate">School Certificate</option>
-            </select>
-          </label>
-          <br />
+        <label>
+          Document Type / పత్ర ప्रకారం *
+          <select
+            name="documentType"
+            value={form.documentType}
+            onChange={handleDocumentTypeChange}
+            required
+          >
+            <option value="" disabled>
+              Select Document Type
+            </option>
+            <option value="aadhar">Aadhar Card</option>
+            <option value="pan">PAN Card</option>
+            <option value="schoolCertificate">School Certificate</option>
+          </select>
+        </label>
+        <br />
 
-          {form.documentType && (
-            <div>
-              <label>
-                Upload Document Proof
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                />
-              </label>
-            </div>
-          )}
-          <br />
-          <button type="submit">Submit / సమర్పించండి</button>
-        </form>
-      </div>
-      <div className="Main-text">
-        <div className="container">
-          <h3 className="text1">
-            Your vote is more than a choice; it's a voice, a power and a pledge
-            for a brighter future of Andhra Pradesh.
-          </h3>
-        </div>
-      </div>
-    </>
+        {form.documentType && (
+          <div>
+            <label>
+              Upload Document Proof
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                required
+              />
+            </label>
+          </div>
+        )}
+        <br />
+        <button type="submit">Submit / సమర్పించండి</button>
+      </form>
+    </div>
+    <div className="Main-text">
+    <div className="container"> 
+    <h3 className="text1">
+    Your vote is more than a choice; it's a voice, a power and a pledge
+    for a brighter future of Andhra Pradesh.
+  </h3>
+  </div>
+
+    </div>
+    
+  </>
   );
 }
 
