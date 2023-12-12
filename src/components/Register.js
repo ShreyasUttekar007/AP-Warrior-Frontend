@@ -356,7 +356,6 @@ function Register() {
             name="documentType"
             value={form.documentType}
             onChange={handleDocumentTypeChange}
-            required
           >
             <option value="" disabled>
               Select Document Type
@@ -376,7 +375,6 @@ function Register() {
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
-                required
               />
             </label>
           </div>
