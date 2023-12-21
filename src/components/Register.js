@@ -5,7 +5,7 @@ import data from "../PC-College - Sheet1.json";
 import { useNavigate } from "react-router-dom";
 import AWS from "aws-sdk";
 
-const API_URL = "https://ap-warrior.onrender.com/api/submit";
+const API_URL = "http://13.201.23.54:4000/api/submit";
 const genders = ["Male", "Female", "Other"];
 
 AWS.config.update({
@@ -339,7 +339,7 @@ function Register() {
           <br />
 
           <label>
-            Pincode / పిన్ కోడ్ *
+            Pincode / పిన్ కోడ్ * 
             <input
               className="pin"
               type="text"
